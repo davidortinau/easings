@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Easings.Pages.Controls;
 using Xamarin.Forms;
@@ -18,6 +19,10 @@ namespace Easings.Pages
     {
         private Matrix _pathMatrix;
         private double _scaleFactor;
+        private bool _isPlaying = false;
+        private uint _duration = 3000;
+        private bool _isLooping;
+        
         public EasingCard Card { get; set; }
 
         public Matrix PathMatrix
@@ -32,6 +37,24 @@ namespace Easings.Pages
             set => _scaleFactor = value;
         }
 
+        public bool IsPlaying
+        {
+            get => _isPlaying;
+            set { _isPlaying = value; NotifyPropertyChanged(); }
+        }
+
+        public uint Duration
+        {
+            get => _duration;
+            set { _duration = value; NotifyPropertyChanged();}
+        }
+
+        public bool IsLooping
+        {
+            get => _isLooping;
+            set { _isLooping = value; NotifyPropertyChanged();}
+        }
+
         public EasingEditorPage()
         {
             BindingContext = this;
@@ -44,24 +67,12 @@ namespace Easings.Pages
         {
             base.OnAppearing();
 
-            SetMatrix();
+            EasingPath.Data = ((Path) Card.Content).Data;
+            CalculateScale();
             
         }
 
-        protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
-        {
-            
-            Debug.WriteLine("OnMeasure");
-            // calc matrix and set it
-            // var element = (FrameworkElement)sender;
-            // var transform = (MatrixTransform)element.LayoutTransform;
-
-            
-            
-            return base.OnMeasure(widthConstraint, heightConstraint);
-        }
-
-        void SetMatrix()
+        void CalculateScale()
         {
             var pathRatio = EasingPath.Width / EasingPath.Height;
             var gridRatio = PathContainer.Width / PathContainer.Height;
@@ -79,13 +90,6 @@ namespace Easings.Pages
             NotifyPropertyChanged(nameof(ScaleFactor));
             
             Debug.WriteLine($"ScaleFactor: {ScaleFactor}");
-            
-            // var matrix = new Matrix();
-            // var scale = (widthConstraint - EasingPath.Width);
-            //
-            // matrix.Scale(scaleFactor, scaleFactor);
-            // transform.Matrix = matrix;
-            // PathMatrix = matrix;
         }
         
         public event PropertyChangedEventHandler PropertyChanged;
@@ -95,6 +99,49 @@ namespace Easings.Pages
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private async void PlayBtn_OnClicked(object sender, EventArgs e)
+        {
+            if (_isPlaying)
+            {
+                IsPlaying = false;
+            }
+            else
+            {
+                IsPlaying = true;
+                await Animate().ConfigureAwait(false);
+            }
+        }
+
+        private async Task Animate()
+        {
+            Box.TranslationX = 0;
+            await Box.TranslateTo(AnimationTrack.Width - Box.Width - AnimationTrack.Padding.Left - AnimationTrack.Padding.Right, 0, _duration, Card.EasingStyle)
+                .ContinueWith(async task =>
+                    {
+                        if (_isLooping)
+                        {
+                            PlayBtn_OnClicked(null, null);
+                        }
+                        else
+                        {
+                            IsPlaying = false;
+                        }
+                    },
+                    CancellationToken.None,
+                    TaskContinuationOptions.OnlyOnRanToCompletion,
+                    TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private void ResetBtn_OnClicked(object sender, EventArgs e)
+        {
+            Box.TranslationX = 0;
+        }
+        
+        private void LoopBtn_OnClicked(object sender, EventArgs e)
+        {
+            
         }
     }
 }

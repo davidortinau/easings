@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Easings.Pages.Controls;assembly=Easings"
+             Title="Easings"
              x:Class="Easings.MainPage">
     
     <ContentPage.Resources>
@@ -11,7 +12,7 @@
 
     <ScrollView>
     <StackLayout Margin="15" Spacing="30">
-        <Label Text="Easing functions specify the rate of change of a parameter over time.&lt;br&gt;&lt;br&gt;Objects in real life don’t just start and stop instantly, and almost never move at a constant speed. When we open a drawer, we first move it quickly, and slow it down as it comes out. Drop something on the floor, and it will first accelerate downwards, and then bounce back up after hitting the floor.&lt;br&gt;&lt;br&gt;This screen helps you choose the right easing function."
+        <Label Text="Easing functions specify the rate of change of a parameter over time.&lt;br&gt;&lt;br&gt;Explore the easing functions below. Double-tap to visit the easing editor for more options."
             TextType="Html"
             FontFamily="DMSans"
         />

@@ -451,5 +451,12 @@
         Glyph="{x:Static common:IconFont.Redo}"
         Color="White"
         Size="18"/>
+    
+    <FontImageSource
+        x:Key="PauseIcon"
+        FontFamily="FontAwesome"
+        Glyph="{x:Static common:IconFont.Pause}"
+        Color="White"
+        Size="18"/>
 
 </ResourceDictionary>
