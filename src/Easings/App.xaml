@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Easings.Pages.Controls;assembly=Easings"
+             x:Class="Easings.App">
+    <Application.Resources>
+        <ControlTemplate x:Key="EasingBox">
+            <Frame HasShadow="False" 
+                   BorderColor="{AppThemeBinding Dark=#000000, Light=#f1f1f1}"
+                   BackgroundColor="{AppThemeBinding Dark=#000000, Light=#f1f1f1}"
+                   CornerRadius="0" 
+                   Margin="6">
+                <Grid RowDefinitions="*,40">
+                    <Grid x:Name="AxisGrid" IsVisible="False">
+                        <Path Data="M1 0v84h124" 
+                              Stroke="{AppThemeBinding Dark=#FFFFFF, Light=#000000}"/>
+                        <Label Text="x" FontSize="10" Margin="8,0"/>
+                        <Label Text="t" FontSize="10" Margin="0,-10,0,0" VerticalOptions="End" HorizontalOptions="End"/>
+                    </Grid>
+                    <ContentPresenter/>
+                    <Label Text="{TemplateBinding CardTitle}" 
+                           Grid.Row="1"
+                           HorizontalOptions="Center" VerticalOptions="End"/>
+                </Grid>
+            </Frame>
+        </ControlTemplate>
+        
+        <Style TargetType="controls:EasingCard">
+            <Setter Property="ControlTemplate" Value="{StaticResource EasingBox}"/>
+            
+        </Style>
+        
+        <Style TargetType="Path">
+            <Setter Property="Stroke" Value="Black"/>
+            <Setter Property="StrokeThickness" Value="2"/>
+        </Style>
+        
+        <Style TargetType="Page" ApplyToDerivedTypes="True">
+            <Setter Property="BackgroundColor"
+                    Value="{AppThemeBinding Dark=#222222, Light=#FFFFFF}"/>
+        </Style>
+        
+        <Style TargetType="Label">
+            <Setter Property="TextColor"
+                    Value="{AppThemeBinding Dark=#FFFFFF, Light=#000000}"/>
+        </Style>
+        
+        <Color x:Key="PrimaryColor">#227dec</Color>
+        <Color x:Key="SecondaryColor">#298e6d</Color>
+        <Color x:Key="TextColor">#000000</Color>
+        
+        <LinearGradientBrush x:Key="OutGradient" StartPoint="0,1" EndPoint="1,0">
+            <GradientStop Offset="0" Color="{StaticResource PrimaryColor}" />
+            <GradientStop Offset="0.3" Color="{StaticResource PrimaryColor}" />
+            <GradientStop Offset="0.5" Color="{AppThemeBinding Dark=#FFFFFF, Light=#000000}" />
+            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#FFFFFF, Light=#000000}" />
+        </LinearGradientBrush>
+        
+        <LinearGradientBrush x:Key="InGradient" StartPoint="0,1" EndPoint="1,0">
+            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#FFFFFF, Light=#000000}" />
+            <GradientStop Offset="0.5" Color="{AppThemeBinding Dark=#FFFFFF, Light=#000000}" />
+            <GradientStop Offset="0.7" Color="{StaticResource SecondaryColor}" />
+            <GradientStop Offset="1" Color="{StaticResource SecondaryColor}" />
+        </LinearGradientBrush>
+        
+        <LinearGradientBrush x:Key="InOutGradient" StartPoint="0,1" EndPoint="1,0">
+            <GradientStop Offset="0" Color="{StaticResource PrimaryColor}" />
+            <GradientStop Offset="0.2" Color="{StaticResource PrimaryColor}" />
+            <GradientStop Offset="0.8" Color="{StaticResource SecondaryColor}" />
+            <GradientStop Offset="1" Color="{StaticResource SecondaryColor}" />
+        </LinearGradientBrush>
+    </Application.Resources>
+</Application>
