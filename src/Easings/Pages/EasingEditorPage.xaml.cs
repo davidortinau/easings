@@ -49,6 +49,12 @@ namespace Easings.Pages
             set { _duration = value; NotifyPropertyChanged();}
         }
 
+        public uint Rate
+        {
+            get => _rate;
+            set { _rate = value; NotifyPropertyChanged();}
+        }
+
         public bool IsLooping
         {
             get => _isLooping;
@@ -106,42 +112,50 @@ namespace Easings.Pages
             if (_isPlaying)
             {
                 IsPlaying = false;
+                this.AbortAnimation("Tween");
             }
             else
             {
                 IsPlaying = true;
-                await Animate().ConfigureAwait(false);
+                Animate();
             }
+            
         }
-
-        private async Task Animate()
+        
+        private void Animate()
         {
-            Box.TranslationX = 0;
-            await Box.TranslateTo(AnimationTrack.Width - Box.Width - AnimationTrack.Padding.Left - AnimationTrack.Padding.Right, 0, _duration, Card.EasingStyle)
-                .ContinueWith(async task =>
-                    {
-                        if (_isLooping)
-                        {
-                            PlayBtn_OnClicked(null, null);
-                        }
-                        else
-                        {
-                            IsPlaying = false;
-                        }
-                    },
-                    CancellationToken.None,
-                    TaskContinuationOptions.OnlyOnRanToCompletion,
-                    TaskScheduler.FromCurrentSynchronizationContext());
+            // Box.TranslationX = 0;
+            
+            var a = new Animation (v => Box.TranslationX = v, 0, (AnimationTrack.Width - Box.Width - AnimationTrack.Padding.Left - AnimationTrack.Padding.Right));
+            a.Commit(this, "Tween", _rate, _duration, Card.EasingStyle, (v, c) =>
+            {
+                if(!_isLooping)
+                    IsPlaying = false;
+            }, ()=>IsLooping);
         }
 
         private void ResetBtn_OnClicked(object sender, EventArgs e)
         {
+            if (_isPlaying)
+            {
+                this.AbortAnimation("Tween");
+                IsPlaying = false;
+            }
+
             Box.TranslationX = 0;
         }
         
-        private void LoopBtn_OnClicked(object sender, EventArgs e)
+        public List<string> Easings = new List<string>()
         {
-            
-        }
+            Easing.Linear.ToString(),
+            Easing.BounceIn.ToString(),
+            Easing.BounceOut.ToString(),
+            Easing.CubicIn.ToString(),
+            Easing.CubicOut.ToString(),
+            Easing.CubicInOut.ToString(),
+            Easing.Linear.ToString(),
+        };
+
+        private uint _rate = 16;
     }
 }

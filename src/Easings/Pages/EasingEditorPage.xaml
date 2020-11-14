@@ -3,6 +3,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:controls="clr-namespace:Easings.Pages.Controls;assembly=Easings"
              Title="BounceIn"
              x:Class="Easings.Pages.EasingEditorPage">
     <ContentPage.Resources>
@@ -56,15 +57,34 @@
                                      Margin="8,0" 
                                      Clicked="PlayBtn_OnClicked"/>
                             
-                        <ImageButton x:Name="LoopBtn" Source="{StaticResource LoopIcon}" Margin="8,0"
-                                     Clicked="LoopBtn_OnClicked"/>
+                        
                         <BoxView FlexLayout.Grow="1" />
                     </FlexLayout>
-                    <TableView>
-                        <TableSection Title="Properties">
-                            <EntryCell Text="{Binding Duration}" Label="Duration"/>
-                            <SwitchCell Text="Loop" On="{Binding IsLooping}"/>
-                            <EntryCell Label="Easing" Text="BounceIn" />
+                    <TableView HasUnevenRows="True">
+                        <TableSection Title="Options">
+                            <ViewCell>
+                                <Grid ColumnDefinitions="2*,4*" 
+                                      RowDefinitions="60"
+                                      Padding="15,8">
+                                    <Label Text="Duration" VerticalOptions="Center"/>
+                                    <Label Text="{Binding Duration}" InputTransparent="True"
+                                           Grid.Column="1"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Start"/>
+                                    
+                                    <Slider Grid.Column="1" 
+                                            VerticalOptions="Center"
+                                            Value="{Binding Duration, Mode=TwoWay, FallbackValue=250}"
+                                            Maximum="3000" />
+                                </Grid>
+                                    
+                                    
+                            </ViewCell>
+                            <EntryCell Label="Rate" Text="{Binding Rate, Mode=TwoWay}" Keyboard="Numeric" />
+                                <SwitchCell On="{Binding IsLooping, Mode=TwoWay}" 
+                                            OnColor="{StaticResource ThemePrimary}"
+                                            Text="Loop"/>
+                            
                         </TableSection>
                     </TableView>
                     
