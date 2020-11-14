@@ -45,7 +45,10 @@ namespace Easings.Pages.Controls
         {
             _cancelTapToken.Cancel();
             Debug.WriteLine("You DOUBLE tapped");
-            Navigation.PushAsync(new EasingEditorPage(), true);
+            Navigation.PushAsync(new EasingEditorPage()
+            {
+                Card = this
+            }, true);
         }
 
         private async void OnTap(View arg1, object arg2)

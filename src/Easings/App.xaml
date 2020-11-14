@@ -4,6 +4,7 @@
              xmlns:controls="clr-namespace:Easings.Pages.Controls;assembly=Easings"
              x:Class="Easings.App">
     <Application.Resources>
+        <ResourceDictionary Source="Common/Styles/DefaultTheme.xaml"/>
         <ControlTemplate x:Key="EasingBox">
             <Frame HasShadow="False" 
                    BorderColor="{AppThemeBinding Dark=#000000, Light=#f1f1f1}"
