@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:Easings.Pages.Controls;assembly=Easings"
-             Title="BounceIn"
+             Title="{Binding Card.CardTitle}"
              x:Class="Easings.Pages.EasingEditorPage">
     <ContentPage.Resources>
         <converters:BoolToObjectConverter
