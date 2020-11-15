@@ -80,14 +80,15 @@ namespace Easings.Pages
 
         void CalculateScale()
         {
+            double padding = 15.0 * 2;
             var pathRatio = EasingPath.Width / EasingPath.Height;
             var gridRatio = PathContainer.Width / PathContainer.Height;
             
             Debug.WriteLine($"PathRatio: {pathRatio}, GridRatio: {gridRatio}");
 
             var size = (gridRatio > pathRatio)
-                ? new Size(EasingPath.Width * (PathContainer.Height / EasingPath.Height), PathContainer.Height)
-                : new Size(PathContainer.Width, EasingPath.Height * (PathContainer.Width / EasingPath.Width));
+                ? new Size(EasingPath.Width * ((PathContainer.Height-padding) / EasingPath.Height), PathContainer.Height-padding)
+                : new Size(PathContainer.Width - padding, EasingPath.Height * ((PathContainer.Width-padding) / EasingPath.Width));
 
             ScaleFactor = (gridRatio > pathRatio)
                 ? (PathContainer.Height / EasingPath.Height)

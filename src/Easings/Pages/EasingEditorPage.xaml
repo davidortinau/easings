@@ -26,8 +26,8 @@
                       Stroke="{StaticResource InGradient}">
                     <Path.RenderTransform>
                         <!-- <MatrixTransform Matrix="{Binding PathMatrix}"/> -->
-                        <ScaleTransform ScaleX="3" 
-                                        ScaleY="3" 
+                        <ScaleTransform ScaleX="2.4" 
+                                        ScaleY="2.4" 
                                         CenterX="0.5" 
                                         CenterY="0.5" />
                     </Path.RenderTransform>

@@ -134,4 +134,7 @@
       <Name>Easings</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\easing_bounce.png" />
+  </ItemGroup>
 </Project>
