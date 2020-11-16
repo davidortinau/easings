@@ -74,6 +74,7 @@ namespace Easings.Pages
             base.OnAppearing();
 
             EasingPath.Data = ((Path) Card.Content).Data;
+            EasingPath.Stroke = ((Path) Card.Content).Stroke;
             CalculateScale();
             
         }
@@ -91,10 +92,12 @@ namespace Easings.Pages
                 : new Size(PathContainer.Width - padding, EasingPath.Height * ((PathContainer.Width-padding) / EasingPath.Width));
 
             ScaleFactor = (gridRatio > pathRatio)
-                ? (PathContainer.Height / EasingPath.Height)
-                : (PathContainer.Width / EasingPath.Width);
+                ? (PathContainer.Height / EasingPath.Height) * 0.7
+                : (PathContainer.Width / EasingPath.Width) * 0.7;
             
             NotifyPropertyChanged(nameof(ScaleFactor));
+
+            // PathTransform.ScaleX = PathTransform.ScaleY = ScaleFactor;
             
             Debug.WriteLine($"ScaleFactor: {ScaleFactor}");
         }
@@ -126,9 +129,12 @@ namespace Easings.Pages
         private void Animate()
         {
             // Box.TranslationX = 0;
-            
-            var a = new Animation (v => Box.TranslationX = v, 0, (AnimationTrack.Width - Box.Width - AnimationTrack.Padding.Left - AnimationTrack.Padding.Right));
-            a.Commit(this, "Tween", _rate, _duration, Card.EasingStyle, (v, c) =>
+            var timeline = new Animation();
+            var pacerAnim = new Animation(v=>Pacer.WidthRequest = v,0, AnimationTrack.Width, Easing.Linear);
+            var boxAnim = new Animation (v => Box.TranslationX = v, 0, (AnimationTrack.Width - Box.Width - AnimationTrack.Padding.Left - AnimationTrack.Padding.Right), Card.EasingStyle);
+            timeline.Add(0,1,pacerAnim);
+            timeline.Add(0,1,boxAnim);
+            timeline.Commit(this, "Tween", _rate, _duration, null, (v, c) =>
             {
                 if(!_isLooping)
                     IsPlaying = false;
@@ -143,6 +149,7 @@ namespace Easings.Pages
                 IsPlaying = false;
             }
 
+            Pacer.WidthRequest = 0;
             Box.TranslationX = 0;
         }
         
