@@ -16,7 +16,7 @@
     </ContentPage.Resources>
     
     <ContentPage.Content>
-        <Grid RowDefinitions="2*,80,3*">
+        <Grid RowDefinitions="2*,80,3*" RowSpacing="0">
             
             <Grid x:Name="PathContainer">
                 <Path Data="M1 84c44 1 81.5 48.6 123-83"
@@ -44,12 +44,16 @@
                 
             
                 <ScrollView Grid.Row="2">
-                <StackLayout>
-                    <FlexLayout HorizontalOptions="Center" AlignItems="Center">
+                <StackLayout Spacing="0">
+                    <FlexLayout HorizontalOptions="Center" AlignItems="Center"
+                                BackgroundColor="#1d1d1d">
                         <BoxView FlexLayout.Grow="1" />
-                        <ImageButton x:Name="ResetBtn" Source="{StaticResource ResetIcon}" Margin="8,0"
+                        <ImageButton x:Name="ResetBtn" Source="{StaticResource ResetIcon}"
+                                     BackgroundColor="Transparent"
+                                     Margin="8,0"
                                      Clicked="ResetBtn_OnClicked"/>
-                        <ImageButton x:Name="PlayBtn" 
+                        <ImageButton x:Name="PlayBtn"
+                                     BackgroundColor="Transparent"
                                      Source="{Binding IsPlaying, 
                                         Converter={StaticResource BoolToPlayPause}}" 
                                      Margin="8,0" 
